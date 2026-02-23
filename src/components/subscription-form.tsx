@@ -28,7 +28,7 @@ export function SubscriptionForm() {
       return;
     }
 
-    e.currentTarget.reset();
+    e.currentTarget?.reset();
     window.location.reload();
   }
 
