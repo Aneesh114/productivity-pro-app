@@ -13,47 +13,62 @@ async function createUser(formData: FormData) {
   "use server";
 
   const raw = {
-    name: String(formData.get("name") || ""),
-    email: String(formData.get("email") || ""),
+    name: String(formData.get("name") || "").trim(),
+    email: String(formData.get("email") || "").trim().toLowerCase(),
     password: String(formData.get("password") || ""),
   };
 
   const parsed = signUpSchema.safeParse(raw);
   if (!parsed.success) {
-    // In a real app, you'd surface these to the UI.
-    console.error(parsed.error.flatten().fieldErrors);
-    return;
+    const msg = Object.values(parsed.error.flatten().fieldErrors).flat().join(". ") || "Invalid input.";
+    redirect(`/auth/sign-up?error=${encodeURIComponent(msg)}`);
   }
 
-  const existing = await prisma.user.findUnique({
-    where: { email: parsed.data.email },
-  });
+  try {
+    const existing = await prisma.user.findUnique({
+      where: { email: parsed.data.email },
+    });
 
-  if (existing) {
-    console.error("User already exists");
-    return;
+    if (existing) {
+      redirect("/auth/sign-up?error=" + encodeURIComponent("An account with this email already exists."));
+    }
+
+    const passwordHash = await hash(parsed.data.password, 10);
+
+    await prisma.user.create({
+      data: {
+        email: parsed.data.email,
+        name: parsed.data.name,
+        passwordHash,
+      },
+    });
+  } catch (err) {
+    console.error("Sign-up error:", err);
+    redirect("/auth/sign-up?error=" + encodeURIComponent("Sign-up failed. Check the server terminal for details."));
   }
-
-  const passwordHash = await hash(parsed.data.password, 10);
-
-  await prisma.user.create({
-    data: {
-      email: parsed.data.email,
-      name: parsed.data.name,
-      passwordHash,
-    },
-  });
 
   redirect("/auth/sign-in");
 }
 
-export default function SignUpPage() {
+export default async function SignUpPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string | string[] }>;
+}) {
+  const params = await searchParams;
+  const errorMsg = typeof params.error === "string" ? params.error : params.error?.[0];
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50">
       <div className="w-full max-w-md rounded-xl bg-white p-8 shadow-sm">
         <h1 className="mb-6 text-center text-2xl font-semibold text-zinc-900">
           Create your account
         </h1>
+        {errorMsg && (
+          <div className="mb-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-800" role="alert">
+            {decodeURIComponent(errorMsg)}
+          </div>
+        )}
         <form action={createUser} className="space-y-4">
           <div>
             <label
