@@ -50,10 +50,25 @@ export async function POST() {
     text: `Heads up! Your trial for ${sub.name} ends on ${sub.trialEndDate?.toDateString()}. Decide whether to cancel before you get charged.`,
   }));
 
-  await sgMail.send(messages);
+  try {
+    await sgMail.send(messages);
+  } catch (err: unknown) {
+    const msg = err && typeof err === "object" && "response" in err
+      ? (err as { response?: { body?: { errors?: unknown } } }).response?.body?.errors
+      : null;
+    const detail = msg ? JSON.stringify(msg) : err instanceof Error ? err.message : "Unknown error";
+    console.error("[check-trials] SendGrid error:", detail);
+    return NextResponse.json(
+      {
+        message: "Failed to send emails. Check that SENDGRID_API_KEY is valid and EMAIL_FROM is a verified sender in SendGrid.",
+        error: detail,
+      },
+      { status: 500 },
+    );
+  }
 
   return NextResponse.json(
-    { message: "Trial reminders sent", count: subscriptions.length },
+    { message: `Trial reminders sent to ${subscriptions.length} recipient(s). Check inbox and spam.`, count: subscriptions.length },
     { status: 200 },
   );
 }

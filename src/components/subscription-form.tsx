@@ -45,7 +45,7 @@ export function SubscriptionForm() {
           <input
             name="name"
             required
-            className="mt-1 w-full rounded-lg border border-zinc-200 px-3 py-2 text-sm outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900"
+            className="mt-1 w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900"
           />
         </div>
         <div className="flex-1 min-w-[140px]">
@@ -55,7 +55,7 @@ export function SubscriptionForm() {
           <input
             name="provider"
             placeholder="Netflix, Spotify..."
-            className="mt-1 w-full rounded-lg border border-zinc-200 px-3 py-2 text-sm outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900"
+            className="mt-1 w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900"
           />
         </div>
         <div className="w-28">
@@ -68,7 +68,7 @@ export function SubscriptionForm() {
             step="0.01"
             min="0"
             required
-            className="mt-1 w-full rounded-lg border border-zinc-200 px-3 py-2 text-sm outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900"
+            className="mt-1 w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900"
           />
         </div>
         <div className="w-28">
@@ -77,7 +77,7 @@ export function SubscriptionForm() {
           </label>
           <select
             name="billingPeriod"
-            className="mt-1 w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900"
+            className="mt-1 w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900"
           >
             <option value="monthly">Monthly</option>
             <option value="yearly">Yearly</option>
@@ -94,7 +94,7 @@ export function SubscriptionForm() {
           <input
             name="category"
             placeholder="Entertainment, Utilities..."
-            className="mt-1 w-full rounded-lg border border-zinc-200 px-3 py-2 text-sm outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900"
+            className="mt-1 w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900"
           />
         </div>
         <div className="flex-1 min-w-[160px]">
@@ -105,7 +105,7 @@ export function SubscriptionForm() {
             name="nextChargeDate"
             type="date"
             required
-            className="mt-1 w-full rounded-lg border border-zinc-200 px-3 py-2 text-sm outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900"
+            className="mt-1 w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900"
           />
         </div>
         <div className="flex-1 min-w-[160px]">
@@ -115,7 +115,7 @@ export function SubscriptionForm() {
           <input
             name="trialEndDate"
             type="date"
-            className="mt-1 w-full rounded-lg border border-zinc-200 px-3 py-2 text-sm outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900"
+            className="mt-1 w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900"
           />
         </div>
       </div>

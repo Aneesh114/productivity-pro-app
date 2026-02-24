@@ -1,6 +1,7 @@
 'use client';
 
 import type { Subscription } from "@prisma/client";
+import { signOut } from "next-auth/react";
 import { useMemo, useState } from "react";
 import { Line } from "react-chartjs-2";
 import {
@@ -104,6 +105,13 @@ export function Dashboard({ userName, subscriptions }: Props) {
             <span className="rounded-full bg-zinc-900 px-4 py-1 text-xs font-medium text-white">
               Total monthly: ${(totalMonthly / 100).toFixed(2)}
             </span>
+            <button
+              type="button"
+              onClick={() => signOut({ callbackUrl: "/auth/sign-in" })}
+              className="rounded-full border border-zinc-300 bg-white px-3 py-1.5 text-xs font-medium text-zinc-700 hover:bg-zinc-50"
+            >
+              Log out
+            </button>
           </div>
         </header>
 
@@ -176,7 +184,8 @@ export function Dashboard({ userName, subscriptions }: Props) {
                       if (res.ok) {
                         setTrialReminderMessage(data.message ?? (data.count ? `Sent ${data.count} reminder(s).` : "Done."));
                       } else {
-                        setTrialReminderMessage(data.message ?? "Failed to send reminders.");
+                        const errMsg = [data.message, data.error].filter(Boolean).join(" — ");
+                        setTrialReminderMessage(errMsg || "Failed to send reminders.");
                       }
                     } catch {
                       setTrialReminderMessage("Request failed.");
