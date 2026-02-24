@@ -14,6 +14,8 @@ model User {
   passwordHash  String
   createdAt     DateTime        @default(now())
   subscriptions Subscription[]
+
+  @@map("user")
 }
 
 model Subscription {
@@ -33,5 +35,7 @@ model Subscription {
   notes          String?
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
+
+  @@map("subscription")
 }
 

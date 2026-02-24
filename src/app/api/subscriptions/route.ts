@@ -21,6 +21,7 @@ const subscriptionSchema = z.object({
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.email) {
+    console.warn("[Subscription] POST rejected: no session");
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
@@ -39,6 +40,7 @@ export async function POST(req: Request) {
   });
 
   if (!user) {
+    console.warn("[Subscription] User not found for email:", session.user.email);
     return NextResponse.json(
       { message: "User not found" },
       { status: 404 },
@@ -75,6 +77,11 @@ export async function POST(req: Request) {
         : null,
     },
   });
+
+  // Log so you can verify writes in the terminal and which DB is used
+  const dbUrl = process.env.DATABASE_URL ?? "";
+  const dbHost = dbUrl.replace(/^[^@]+@/, "").split("/")[0] || "unknown";
+  console.log("[Subscription] Created id=%s for user=%s (DB host: %s)", subscription.id, user.id, dbHost);
 
   return NextResponse.json(subscription, { status: 201 });
 }

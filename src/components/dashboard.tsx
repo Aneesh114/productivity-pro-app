@@ -1,7 +1,7 @@
 'use client';
 
 import type { Subscription } from "@prisma/client";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -30,6 +30,8 @@ type Props = {
 };
 
 export function Dashboard({ userName, subscriptions }: Props) {
+  const [trialReminderMessage, setTrialReminderMessage] = useState<string | null>(null);
+
   const totalMonthly = useMemo(() => {
     return subscriptions
       .filter((s) => s.isActive)
@@ -76,13 +78,11 @@ export function Dashboard({ userName, subscriptions }: Props) {
     const threeDaysFromNow = new Date(
       now.getTime() + 3 * 24 * 60 * 60 * 1000,
     );
-    return subscriptions.filter(
-      (s) =>
-        s.isTrial &&
-        s.trialEndDate &&
-        s.trialEndDate >= now &&
-        s.trialEndDate <= threeDaysFromNow,
-    );
+    return subscriptions.filter((s) => {
+      if (!s.isTrial || !s.trialEndDate) return false;
+      const end = typeof s.trialEndDate === "string" ? new Date(s.trialEndDate) : s.trialEndDate;
+      return end >= now && end <= threeDaysFromNow;
+    });
   }, [subscriptions]);
 
   return (
@@ -97,8 +97,13 @@ export function Dashboard({ userName, subscriptions }: Props) {
               Welcome back, {userName}. Track and kill wasteful subscriptions.
             </p>
           </div>
-          <div className="rounded-full bg-zinc-900 px-4 py-1 text-xs font-medium text-white">
-            Total monthly burn: ${(totalMonthly / 100).toFixed(2)}
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="rounded-full bg-zinc-200 px-3 py-1 text-xs font-medium text-zinc-700">
+              {subscriptions.length} subscription{subscriptions.length !== 1 ? "s" : ""}
+            </span>
+            <span className="rounded-full bg-zinc-900 px-4 py-1 text-xs font-medium text-white">
+              Total monthly: ${(totalMonthly / 100).toFixed(2)}
+            </span>
           </div>
         </header>
 
@@ -146,7 +151,7 @@ export function Dashboard({ userName, subscriptions }: Props) {
               </h3>
               {upcomingTrials.length === 0 ? (
                 <p className="text-sm text-zinc-500">
-                  No trials expiring soon. Nice.
+                  No trials expiring soon. Add a subscription, check &quot;This is a trial&quot;, set Trial ends within 3 days, then use the button below to send yourself a reminder email.
                 </p>
               ) : (
                 <ul className="space-y-1 text-sm text-zinc-800">
@@ -160,6 +165,31 @@ export function Dashboard({ userName, subscriptions }: Props) {
                   ))}
                 </ul>
               )}
+              <div className="mt-3">
+                <button
+                  type="button"
+                  onClick={async () => {
+                    setTrialReminderMessage(null);
+                    try {
+                      const res = await fetch("/api/check-trials", { method: "POST" });
+                      const data = await res.json().catch(() => ({}));
+                      if (res.ok) {
+                        setTrialReminderMessage(data.message ?? (data.count ? `Sent ${data.count} reminder(s).` : "Done."));
+                      } else {
+                        setTrialReminderMessage(data.message ?? "Failed to send reminders.");
+                      }
+                    } catch {
+                      setTrialReminderMessage("Request failed.");
+                    }
+                  }}
+                  className="rounded-full bg-zinc-800 px-3 py-1.5 text-xs font-medium text-white hover:bg-zinc-700"
+                >
+                  Send trial reminders now
+                </button>
+                {trialReminderMessage && (
+                  <p className="mt-2 text-xs text-zinc-600">{trialReminderMessage}</p>
+                )}
+              </div>
             </div>
           </section>
         </main>
