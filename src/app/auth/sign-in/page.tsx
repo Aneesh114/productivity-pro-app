@@ -35,9 +35,9 @@ export default function SignInPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50">
-      <div className="w-full max-w-md rounded-xl bg-white p-8 shadow-sm">
-        <h1 className="mb-6 text-center text-2xl font-semibold text-zinc-900">
+    <div className="flex min-h-screen items-center justify-center bg-zinc-50 dark:bg-zinc-900">
+      <div className="w-full max-w-md rounded-xl bg-white dark:bg-zinc-800 p-8 shadow-sm transition-colors">
+        <h1 className="mb-6 text-center text-2xl font-semibold text-zinc-900 dark:text-zinc-100">
           Welcome back
         </h1>
         <form onSubmit={onSubmit} className="space-y-4">
@@ -87,11 +87,11 @@ export default function SignInPage() {
             {loading ? "Signing in..." : "Sign in"}
           </button>
         </form>
-        <p className="mt-4 text-center text-sm text-zinc-600">
+        <p className="mt-4 text-center text-sm text-zinc-600 dark:text-zinc-400">
           Don&apos;t have an account?{" "}
           <a
             href="/auth/sign-up"
-            className="font-medium text-zinc-900 underline"
+            className="font-medium text-zinc-900 dark:text-zinc-100 underline"
           >
             Sign up
           </a>

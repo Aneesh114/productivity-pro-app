@@ -3,6 +3,7 @@
 import type { Subscription } from "@prisma/client";
 import { signOut } from "next-auth/react";
 import { useMemo, useState } from "react";
+import { useTheme } from "./theme-provider";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -16,6 +17,7 @@ import {
 import { SubscriptionForm } from "./subscription-form";
 import { CsvUpload } from "./csv-upload";
 import { SubscriptionsList } from "./subscriptions-list";
+import { ThemeToggle } from "./theme-toggle";
 
 ChartJS.register(
   CategoryScale,
@@ -37,6 +39,9 @@ type StatusFilter = "all" | "active" | "trials" | "inactive";
 
 export function Dashboard({ userName, subscriptions }: Props) {
   const [trialReminderMessage, setTrialReminderMessage] = useState<string | null>(null);
+  // read theme for display
+  const { theme } = useTheme();
+  console.debug('Dashboard render theme=', theme);
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
 
@@ -161,19 +166,20 @@ export function Dashboard({ userName, subscriptions }: Props) {
   }, [subscriptions]);
 
   return (
-    <div className="min-h-screen bg-zinc-50 px-4 py-8">
+    <div className={`min-h-screen px-4 py-8 ${theme === 'dark' ? 'bg-zinc-900' : 'bg-zinc-50'}`}>
       <div className="mx-auto flex max-w-6xl flex-col gap-8">
         <header className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
           <div>
-            <h1 className="text-2xl font-semibold text-zinc-900">
+            <h1 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-100">
               Productivity Pro – Subscription Killer
             </h1>
-            <p className="text-sm text-zinc-600">
+            
+            <p className="text-sm text-zinc-600 dark:text-zinc-400">
               Welcome back, {userName}. Track and kill wasteful subscriptions.
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            <span className="rounded-full bg-zinc-200 px-3 py-1 text-xs font-medium text-zinc-700">
+            <span className="rounded-full bg-zinc-200 px-3 py-1 text-xs font-medium text-zinc-700 dark:bg-zinc-700 dark:text-zinc-200">
               {filtered.length} of {subscriptions.length} subscription{subscriptions.length !== 1 ? "s" : ""}
             </span>
             <span className="rounded-full bg-zinc-900 px-4 py-1 text-xs font-medium text-white">
@@ -182,7 +188,7 @@ export function Dashboard({ userName, subscriptions }: Props) {
             <button
               type="button"
               onClick={() => signOut({ callbackUrl: "/auth/sign-in" })}
-              className="rounded-full border border-zinc-300 bg-white px-3 py-1.5 text-xs font-medium text-zinc-700 hover:bg-zinc-50"
+              className="rounded-full border border-zinc-300 bg-white px-3 py-1.5 text-xs font-medium text-zinc-700 hover:bg-zinc-50 dark:bg-zinc-800 dark:border-zinc-600 dark:text-zinc-200 dark:hover:bg-zinc-700"
             >
               Log out
             </button>
@@ -204,7 +210,7 @@ export function Dashboard({ userName, subscriptions }: Props) {
               <select
                 value={categoryFilter}
                 onChange={(e) => setCategoryFilter(e.target.value)}
-                className="rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-sm text-zinc-900"
+                className="rounded-lg border border-zinc-200 dark:border-zinc-600 bg-white dark:bg-zinc-700 px-3 py-1.5 text-sm text-zinc-900 dark:text-zinc-100 transition-colors"
               >
                 <option value="all">All categories</option>
                 {categories.map((c) => (
@@ -214,7 +220,7 @@ export function Dashboard({ userName, subscriptions }: Props) {
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value as StatusFilter)}
-                className="rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-sm text-zinc-900"
+                className="rounded-lg border border-zinc-200 dark:border-zinc-600 bg-white dark:bg-zinc-700 px-3 py-1.5 text-sm text-zinc-900 dark:text-zinc-100 transition-colors"
               >
                 <option value="all">All</option>
                 <option value="active">Active only</option>
@@ -229,8 +235,8 @@ export function Dashboard({ userName, subscriptions }: Props) {
             <h2 className="text-sm font-medium uppercase tracking-wide text-zinc-500">
               Overview
             </h2>
-            <div className="rounded-xl bg-white p-4 shadow-sm">
-              <h3 className="mb-2 text-sm font-semibold text-zinc-900">Spend by category</h3>
+            <div className={`rounded-xl p-4 shadow-sm ${theme === 'dark' ? 'bg-zinc-800' : 'bg-white'}`}>
+              <h3 className={`mb-2 text-sm font-semibold ${theme === 'dark' ? 'text-zinc-100' : 'text-zinc-900'}`}>Spend by category</h3>
               {chartData.labels.length ? (
                 <Line
                   data={chartData}
@@ -249,8 +255,8 @@ export function Dashboard({ userName, subscriptions }: Props) {
               )}
             </div>
 
-            <div className="rounded-xl bg-white p-4 shadow-sm">
-              <h3 className="mb-2 text-sm font-semibold text-zinc-900">Monthly spending over time</h3>
+            <div className={`rounded-xl p-4 shadow-sm ${theme === 'dark' ? 'bg-zinc-800' : 'bg-white'}`}>
+              <h3 className={`mb-2 text-sm font-semibold ${theme === 'dark' ? 'text-zinc-100' : 'text-zinc-900'}`}>Monthly spending over time</h3>
               {monthlyOverTimeData.datasets[0].data.some((v) => v > 0) ? (
                 <Line
                   data={monthlyOverTimeData}
@@ -269,8 +275,8 @@ export function Dashboard({ userName, subscriptions }: Props) {
               )}
             </div>
 
-            <div className="rounded-xl bg-white p-4 shadow-sm">
-              <h3 className="mb-2 text-sm font-semibold text-zinc-900">
+            <div className={`rounded-xl p-4 shadow-sm ${theme === 'dark' ? 'bg-zinc-800' : 'bg-white'}`}>
+              <h3 className={`mb-2 text-sm font-semibold ${theme === 'dark' ? 'text-zinc-100' : 'text-zinc-900'}`}>
                 Trials ending in the next 3 days
               </h3>
               {upcomingTrials.length === 0 ? (

@@ -73,18 +73,18 @@ export function SubscriptionsList({ subscriptions }: { subscriptions: Sub[] }) {
 
   if (subscriptions.length === 0) {
     return (
-      <p className="rounded-xl bg-white p-4 text-sm text-zinc-500 shadow-sm">
+      <p className="rounded-xl bg-white dark:bg-zinc-800 p-4 text-sm text-zinc-500 dark:text-zinc-400 shadow-sm">
         No subscriptions match the current filters. Add one above or change filters.
       </p>
     );
   }
 
   return (
-    <div className="rounded-xl bg-white shadow-sm overflow-hidden">
+    <div className="rounded-xl bg-white dark:bg-zinc-800 shadow-sm overflow-hidden transition-colors">
       <div className="overflow-x-auto">
-        <table className="w-full text-sm">
+        <table className="w-full text-sm text-zinc-900 dark:text-zinc-100">
           <thead>
-            <tr className="border-b border-zinc-200 bg-zinc-50 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
+            <tr className="border-b border-zinc-200 dark:border-zinc-600 bg-zinc-50 dark:bg-zinc-700 text-left text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
               <th className="px-4 py-3">Name</th>
               <th className="px-4 py-3 hidden sm:table-cell">Provider</th>
               <th className="px-4 py-3 hidden md:table-cell">Category</th>
@@ -100,18 +100,18 @@ export function SubscriptionsList({ subscriptions }: { subscriptions: Sub[] }) {
             {subscriptions.map((sub) => (
               <tr
                 key={sub.id}
-                className={!sub.isActive ? "bg-zinc-50 text-zinc-500" : ""}
+                className={`${!sub.isActive ? "bg-zinc-50 dark:bg-zinc-700 text-zinc-500 dark:text-zinc-400" : ""} hover:bg-zinc-50 dark:hover:bg-zinc-700`}
               >
-                <td className="px-4 py-2 font-medium text-zinc-900">{sub.name}</td>
-                <td className="px-4 py-2 hidden sm:table-cell text-zinc-600">{sub.provider ?? "—"}</td>
-                <td className="px-4 py-2 hidden md:table-cell text-zinc-600">{sub.category ?? "—"}</td>
-                <td className="px-4 py-2 text-right text-zinc-900">
+                <td className="px-4 py-2 font-medium text-zinc-900 dark:text-zinc-100">{sub.name}</td>
+                <td className="px-4 py-2 hidden sm:table-cell text-zinc-600 dark:text-zinc-400">{sub.provider ?? "—"}</td>
+                <td className="px-4 py-2 hidden md:table-cell text-zinc-600 dark:text-zinc-400">{sub.category ?? "—"}</td>
+                <td className="px-4 py-2 text-right text-zinc-900 dark:text-zinc-100">
                   ${(monthlyAmount(sub) / 100).toFixed(2)}
                   <span className="text-zinc-400">/mo</span>
                 </td>
-                <td className="px-4 py-2 hidden lg:table-cell text-zinc-600">{sub.billingPeriod}</td>
-                <td className="px-4 py-2 hidden lg:table-cell text-zinc-600">{formatDate(sub.nextChargeDate)}</td>
-                <td className="px-4 py-2 hidden lg:table-cell text-zinc-600">{formatDate(sub.trialEndDate)}</td>
+                <td className="px-4 py-2 hidden lg:table-cell text-zinc-600 dark:text-zinc-400">{sub.billingPeriod}</td>
+                <td className="px-4 py-2 hidden lg:table-cell text-zinc-600 dark:text-zinc-400">{formatDate(sub.nextChargeDate)}</td>
+                <td className="px-4 py-2 hidden lg:table-cell text-zinc-600 dark:text-zinc-400">{formatDate(sub.trialEndDate)}</td>
                 <td className="px-4 py-2">
                   {sub.isActive ? (
                     <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-800">Active</span>
@@ -146,12 +146,12 @@ export function SubscriptionsList({ subscriptions }: { subscriptions: Sub[] }) {
       </div>
 
       {error && (
-        <p className="px-4 py-2 text-xs text-red-600 bg-red-50" role="alert">{error}</p>
+        <p className="px-4 py-2 text-xs text-red-600 bg-red-50 dark:bg-red-800" role="alert">{error}</p>
       )}
 
       {editing && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" role="dialog" aria-modal="true">
-          <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
+          <div className="w-full max-w-md rounded-xl bg-white dark:bg-zinc-800 p-6 shadow-xl transition-colors">
             <h3 className="text-lg font-semibold text-zinc-900 mb-4">Edit subscription</h3>
             <form onSubmit={handleSave} className="space-y-3">
               <div>

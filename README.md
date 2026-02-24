@@ -1,5 +1,14 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+### Recent UI/UX Enhancements
+
+- Dark mode support with a global toggle (top-right) and system preference detection.
+- Improved form styling, transitions, and feedback states.
+- Success toast after adding subscriptions; no full page reload required.
+- Refined table and card styles, including hover effects and dark variants.
+- Global theme toggle component available on all pages.
+
+
 ## Getting Started
 
 First, run the development server:

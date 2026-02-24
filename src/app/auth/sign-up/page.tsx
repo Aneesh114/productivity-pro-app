@@ -59,13 +59,13 @@ export default async function SignUpPage({
   const errorMsg = typeof params.error === "string" ? params.error : params.error?.[0];
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50">
-      <div className="w-full max-w-md rounded-xl bg-white p-8 shadow-sm">
-        <h1 className="mb-6 text-center text-2xl font-semibold text-zinc-900">
+    <div className="flex min-h-screen items-center justify-center bg-zinc-50 dark:bg-zinc-900">
+      <div className="w-full max-w-md rounded-xl bg-white dark:bg-zinc-800 p-8 shadow-sm transition-colors">
+        <h1 className="mb-6 text-center text-2xl font-semibold text-zinc-900 dark:text-zinc-100">
           Create your account
         </h1>
         {errorMsg && (
-          <div className="mb-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-800" role="alert">
+          <div className="mb-4 rounded-lg bg-red-50 dark:bg-red-900 px-3 py-2 text-sm text-red-800 dark:text-red-200" role="alert">
             {decodeURIComponent(errorMsg)}
           </div>
         )}
@@ -73,7 +73,7 @@ export default async function SignUpPage({
           <div>
             <label
               htmlFor="name"
-              className="block text-sm font-medium text-zinc-800"
+              className="block text-sm font-medium text-zinc-800 dark:text-zinc-200"
             >
               Name
             </label>
@@ -82,14 +82,14 @@ export default async function SignUpPage({
               name="name"
               type="text"
               required
-              className="mt-1 w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900"
+              className="mt-1 w-full rounded-lg border border-zinc-200 dark:border-zinc-600 bg-white dark:bg-zinc-700 px-3 py-2 text-sm text-zinc-900 dark:text-zinc-100 outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 transition-colors"
             />
           </div>
 
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-zinc-800"
+              className="block text-sm font-medium text-zinc-800 dark:text-zinc-200"
             >
               Email
             </label>
@@ -98,14 +98,14 @@ export default async function SignUpPage({
               name="email"
               type="email"
               required
-              className="mt-1 w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900"
+              className="mt-1 w-full rounded-lg border border-zinc-200 dark:border-zinc-600 bg-white dark:bg-zinc-700 px-3 py-2 text-sm text-zinc-900 dark:text-zinc-100 outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 transition-colors"
             />
           </div>
 
           <div>
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-zinc-800"
+              className="block text-sm font-medium text-zinc-800 dark:text-zinc-200"
             >
               Password
             </label>
@@ -114,22 +114,22 @@ export default async function SignUpPage({
               name="password"
               type="password"
               required
-              className="mt-1 w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900"
+              className="mt-1 w-full rounded-lg border border-zinc-200 dark:border-zinc-600 bg-white dark:bg-zinc-700 px-3 py-2 text-sm text-zinc-900 dark:text-zinc-100 outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 transition-colors"
             />
           </div>
 
           <button
             type="submit"
-            className="mt-4 w-full rounded-full bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800"
+            className="mt-4 w-full rounded-full bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 transition-colors"
           >
             Sign up
           </button>
         </form>
-        <p className="mt-4 text-center text-sm text-zinc-600">
+        <p className="mt-4 text-center text-sm text-zinc-600 dark:text-zinc-400">
           Already have an account?{" "}
           <a
             href="/auth/sign-in"
-            className="font-medium text-zinc-900 underline"
+            className="font-medium text-zinc-900 dark:text-zinc-100 underline"
           >
             Sign in
           </a>

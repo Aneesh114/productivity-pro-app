@@ -63,17 +63,17 @@ export function CsvUpload() {
   }
 
   return (
-    <div className="rounded-xl bg-white p-4 shadow-sm">
+    <div className="rounded-xl bg-white dark:bg-zinc-800 p-4 shadow-sm transition-colors">
       <div className="flex items-center justify-between gap-2">
         <div>
-          <p className="text-sm font-medium text-zinc-900">
+          <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
             CSV upload (power user)
           </p>
-          <p className="text-xs text-zinc-500">
+          <p className="text-xs text-zinc-500 dark:text-zinc-400">
             Columns: name, provider, category, amount, billingPeriod, nextChargeDate, isTrial, trialEndDate
           </p>
         </div>
-        <label className="inline-flex cursor-pointer items-center rounded-full bg-zinc-900 px-3 py-2 text-xs font-medium text-white hover:bg-zinc-800">
+        <label className="inline-flex cursor-pointer items-center rounded-full bg-zinc-900 px-3 py-2 text-xs font-medium text-white hover:bg-zinc-800 transition-colors">
           <input
             type="file"
             accept=".csv,text/csv"
@@ -85,7 +85,7 @@ export function CsvUpload() {
         </label>
       </div>
       {error && (
-        <p className="mt-2 text-xs text-red-600" role="alert">
+        <p className="mt-2 text-xs text-red-600 dark:text-red-300" role="alert">
           {error}
         </p>
       )}

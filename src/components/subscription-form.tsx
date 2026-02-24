@@ -1,10 +1,13 @@
 'use client';
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export function SubscriptionForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
+  const router = useRouter();
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -29,13 +32,15 @@ export function SubscriptionForm() {
     }
 
     e.currentTarget?.reset();
-    window.location.reload();
+    setSuccess("Subscription added");
+    setTimeout(() => setSuccess(null), 3000);
+    router.refresh();
   }
 
   return (
     <form
       onSubmit={onSubmit}
-      className="space-y-3 rounded-xl bg-white p-4 shadow-sm"
+      className="space-y-3 rounded-xl bg-white dark:bg-zinc-800 p-4 shadow-sm transition-colors"
     >
       <div className="flex flex-wrap gap-3">
         <div className="flex-1 min-w-[140px]">
@@ -45,7 +50,7 @@ export function SubscriptionForm() {
           <input
             name="name"
             required
-            className="mt-1 w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900"
+            className="mt-1 w-full rounded-lg border border-zinc-200 bg-white dark:bg-zinc-700 dark:border-zinc-600 px-3 py-2 text-sm text-zinc-900 dark:text-zinc-100 outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 transition-colors"
           />
         </div>
         <div className="flex-1 min-w-[140px]">
@@ -55,7 +60,7 @@ export function SubscriptionForm() {
           <input
             name="provider"
             placeholder="Netflix, Spotify..."
-            className="mt-1 w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900"
+            className="mt-1 w-full rounded-lg border border-zinc-200 bg-white dark:bg-zinc-700 dark:border-zinc-600 px-3 py-2 text-sm text-zinc-900 dark:text-zinc-100 outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 transition-colors"
           />
         </div>
         <div className="w-28">
@@ -68,7 +73,7 @@ export function SubscriptionForm() {
             step="0.01"
             min="0"
             required
-            className="mt-1 w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900"
+            className="mt-1 w-full rounded-lg border border-zinc-200 bg-white dark:bg-zinc-700 dark:border-zinc-600 px-3 py-2 text-sm text-zinc-900 dark:text-zinc-100 outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 transition-colors"
           />
         </div>
         <div className="w-28">
@@ -77,7 +82,7 @@ export function SubscriptionForm() {
           </label>
           <select
             name="billingPeriod"
-            className="mt-1 w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900"
+            className="mt-1 w-full rounded-lg border border-zinc-200 bg-white dark:bg-zinc-700 dark:border-zinc-600 px-3 py-2 text-sm text-zinc-900 dark:text-zinc-100 outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 transition-colors"
           >
             <option value="monthly">Monthly</option>
             <option value="yearly">Yearly</option>
@@ -94,7 +99,7 @@ export function SubscriptionForm() {
           <input
             name="category"
             placeholder="Entertainment, Utilities..."
-            className="mt-1 w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900"
+            className="mt-1 w-full rounded-lg border border-zinc-200 bg-white dark:bg-zinc-700 dark:border-zinc-600 px-3 py-2 text-sm text-zinc-900 dark:text-zinc-100 outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 transition-colors"
           />
         </div>
         <div className="flex-1 min-w-[160px]">
@@ -105,7 +110,7 @@ export function SubscriptionForm() {
             name="nextChargeDate"
             type="date"
             required
-            className="mt-1 w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900"
+            className="mt-1 w-full rounded-lg border border-zinc-200 bg-white dark:bg-zinc-700 dark:border-zinc-600 px-3 py-2 text-sm text-zinc-900 dark:text-zinc-100 outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 transition-colors"
           />
         </div>
         <div className="flex-1 min-w-[160px]">
@@ -115,7 +120,7 @@ export function SubscriptionForm() {
           <input
             name="trialEndDate"
             type="date"
-            className="mt-1 w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900"
+            className="mt-1 w-full rounded-lg border border-zinc-200 bg-white dark:bg-zinc-700 dark:border-zinc-600 px-3 py-2 text-sm text-zinc-900 dark:text-zinc-100 outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 transition-colors"
           />
         </div>
       </div>
@@ -132,7 +137,7 @@ export function SubscriptionForm() {
         <button
           type="submit"
           disabled={loading}
-          className="rounded-full bg-zinc-900 px-4 py-2 text-xs font-medium text-white hover:bg-zinc-800 disabled:opacity-60"
+          className="rounded-full bg-zinc-900 px-4 py-2 text-xs font-medium text-white hover:bg-zinc-800 disabled:opacity-60 transition-colors"
         >
           {loading ? "Saving..." : "Add subscription"}
         </button>
@@ -141,6 +146,11 @@ export function SubscriptionForm() {
       {error && (
         <p className="text-xs text-red-600" role="alert">
           {error}
+        </p>
+      )}
+      {success && (
+        <p className="text-xs text-emerald-600" role="status">
+          {success}
         </p>
       )}
     </form>
